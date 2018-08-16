@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MCRC : Meal Scheduler</title>
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css" /> -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/mcrcdashboard/resources/css/bootstrap-year-calendar.css">
+  <link rel="stylesheet" href="/mcrcdashboard/resources/css/style.css">
+
+</head>
+<body>
+ 
+  
+
+  <div class="wrapper">    
+    <header>
+      <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap py-2">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+          <img src="/mcrcdashboard/resources/assets/logo_beige.png" alt="" height="40">
+        </a>      
+        <ul class="navbar-nav px-3 d-none d-md-block">
+          <li class="nav-item text-nowrap li-login d-none">
+            <a class="nav-link text-light" href="" data-toggle="modal" data-target="#loginModal">Login <i class="fas fa-sign-in-alt"></i></a>
+          </li>
+          <li class="nav-item text-nowrap li-logout d-none">
+            <a class="nav-link text-light" href="javascrip:void(0)" id="logoutBtn">Logout <i class="fas fa-sign-out-alt"></i></a>
+          </li>
+        </ul>
+        <!-- <i class="fas fa-bars"></i> -->
+      </nav>             
+    </header>
+
+    <aside class="bg-light">
+      <div class="p-3 mb-md-4">
+        <p class="m-0">Welcome</p>
+        <h4 id="userName">Guest</h2>
+      </div>
+        <ul class="nav flex-row flex-md-column page-route">
+            <li class="nav-item">
+              <a class="nav-link px-4 px-md-3 selected" data-target="dashboard-container">
+                <i class="fas fa-chart-area pr-2"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-4 px-md-3" data-target="meals-container">
+                <i class="fas fa-calendar-alt pr-2"></i>
+                Meals
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-4 px-md-3" data-target="sports-container">
+                  <i class="fas fa-futbol pr-2"></i>
+                Sports <span class="badge badge-success">Coming Soon</span>
+              </a>
+            </li>
+          </ul>
+    </aside>
+    
+    <main class="">
+
+      <div class="dashboard-container d-block">
+        <div class="container-fluid">
+          <div class="row my-4">
+            <div class="col-12 col-xl-6">
+              <div class="event-chart-container" style="position: relative; ">
+                <canvas id="eventChart"></canvas>
+              </div>
+              <h5 class="my-3 text-center">Shift wise employee count</h4>
+            </div>
+            
+            <div class="col-12 col-xl-6">
+              <hr class="d-block d-xl-none">
+              <div class="status-chart-container" style="position: relative; ">
+                <canvas id="statusChart"></canvas>
+              </div>
+              <h5 class="my-3 text-center">Employees yet to fill Meal Schedule for next week</h4>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="meals-container d-none">
+        <div class="container my-4">
+          <div class="alert alert-danger text-center d-block" role="alert" id="mealError">
+            Please <strong>LOGIN</strong> to access <strong><i>Meal Scheduler</i></strong> application!
+          </div>
+        </div>
+        <div id="calendar"></div>
+      </div>
+
+     <div class="sports-container d-none"></div>
+
+     
+      
+    </main>
+    
+    <footer>
+      <nav class="navbar navbar-dark bg-dark d-flex justify-content-center py-3 text-light text-center">
+        <div class="">Copyrights &copy; Behr Paint Company.</div>
+      </nav>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="event-modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Select your shift</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            <div class="modal-body">
+              <input type="hidden" name="event-index" value="">
+              <form class="form-horizontal">             
+  
+                <div class="form-group">
+                  <div class="col-sm-6 offset-sm-3">
+                  <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="shiftOption" id="optionFirst" value="First">
+                        First
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="shiftOption" id="optionSecond" value="Second">
+                        Second
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="shiftOption" id="optionETO" value="ETO">
+                        ETO
+                      </label>
+                    </div>
+                  </div>
+                  </div>
+  
+                <div class="form-group">
+                  <!-- <label for="min-date" class="col-sm-6 offset-sm-3 control-label">Dates</label> -->
+                  <div class="col-sm-6 offset-sm-3">
+                    <div class="input-group input-daterange">
+                      <input name="event-date" type="date" class="form-control" value="" disabled>                    
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="save-event">
+                Save
+              </button>
+              <!-- <button type="button" class="btn btn-primary" id="delete-event">
+                  Delete
+                </button> -->
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal" id="loginModal" role="dialog" aria-labelledby="loginModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Login</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              
+              <div class="container">
+                <div class="row">
+                  <div class="col-12 col-md-8 offset-md-2">
+                    <form id="loginForm">                        
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"><i class="fas fa-at"></i></div>
+                        </div>
+                        <input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                      </div>
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"><i class="fas fa-key"></i></div>
+                        </div>
+                        <input type="password" class="form-control" id="userPassword" placeholder="Password">
+                      </div> 
+                      <div class="d-flex justify-content-center mt-4">
+                        <button type="button" class="btn btn-secondary mx-2" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary mx-2" id="loginBtn">Login <i class="fas fa-sign-in-alt"></i></button>
+                      </div>                       
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+              
+            </div>
+            
+          </div>
+        </div>
+    </div>
+
+  </div>
+
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.js"></script>
+  <script src="/mcrcdashboard/resources/js/bootstrap-year-calendar.js"></script>
+  <script src="/mcrcdashboard/resources/js/scripts.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script src="/mcrcdashboard/resources/js/chart-init.js"></script>
+
+
+</body>
+</html>

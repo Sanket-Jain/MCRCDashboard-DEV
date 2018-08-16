@@ -1,0 +1,106 @@
+.calendar .month-container {
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 230px auto;
+}
+.months-container {
+  display: grid !important;
+}
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .months-container {
+    grid-template-columns: 1fr;
+  }  
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .months-container {
+    grid-template-columns: repeat(2, 1fr);
+  }  
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .months-container {
+    grid-template-columns: repeat(3, 1fr);
+  }  
+}
+@media screen and (min-width: 1201px){
+  .months-container {
+    grid-template-columns: repeat(4, 1fr);
+  }  
+}
+
+
+
+/* mobile */
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .wrapper {
+    grid-template-columns: 100%;
+  }
+}
+
+/* tablet & above */
+@media screen and (min-width: 768px) {
+  header {
+    grid-column: 1/3;
+    grid-row: 1/2;
+  }
+  aside {
+    grid-column: 1/2;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    height: calc(100vh - 122px);
+  }
+  main {
+    grid-column: 2/3;
+  }
+  footer {
+    grid-column: 1/3;
+    grid-row: 3/4;
+  }
+  
+  .page-route .nav-link {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+.page-route {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.page-route .nav-link {
+  cursor: pointer;
+}
+
+
+.selected {
+  background-color: #6c757d!important;  
+  color: #f8f9fa!important;
+}
+
+
+
+/* charts */
+.event-chart-container {
+  width: calc(100vw - 290px);
+}
+.status-chart-container {
+  width: calc(100vw - 290px);
+}
+@media screen and (max-width: 767px) {
+  .event-chart-container {
+    width: calc(100vw - 40px);
+  }
+  .status-chart-container {
+    width: calc(100vw - 40px);
+  }
+}
+@media screen and (min-width: 1200px) {
+  .event-chart-container {
+    width: calc(50vw - 150px);
+  }
+  .status-chart-container {
+    width: calc(50vw - 150px);
+  }  
+}
